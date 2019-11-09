@@ -28,18 +28,19 @@ describe('ECDH Contract', () => {
     })
 
     it('Deploying Example Contract', async () => {
-        ecdhInstance = await deployer.deploy(ECDH_CONTRACT_PATH) // Deploy it
-
-        assert.ok(ecdhInstance, 'Could not deploy the ECDH'); // Check whether it's deployed
+        ecdhInstance = await deployer.deploy(ECDH_CONTRACT_PATH)
+        assert.ok(ecdhInstance, 'Could not deploy the ECDH');
     })
 
     describe('Generate participants', () => {
         it('should generate Alice', async () => {
             alice = wallets[1];
+            assert.ok(alice.hasOwnProperty("publicKey"), "Public key not found")
         })
 
         it('should generate Bob', async () => {
             bob = wallets[2];
+            assert.ok(bob.hasOwnProperty("publicKey"), "Public key not found")
         })
     })
 
