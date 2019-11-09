@@ -1,0 +1,28 @@
+@compiler >= 4
+
+contract ECDH =
+  type state = map(int, e)
+  record e =
+    { d  : string
+    , dk : option(string)
+    , r  : option(address) }
+   
+  stateful entrypoint init() : state = {}
+  
+  stateful entrypoint place(d': string) : unit =
+    put(state{[Map.size(state)] = { d = d', dk = None, r = None}})
+
+  stateful entrypoint claim(id: int) : unit =
+    exists(id)
+    put(state{[id].r = Some(Call.caller)})
+    
+  stateful entrypoint unlock(id: int, dk': string) : unit =
+    exists(id)
+    put(state{[id].dk = Some(dk')})
+    
+  entrypoint take(id: int) : e =
+    exists(id)
+    state[id]
+  
+  function exists(id: int) : unit =
+    require(Map.member(id, state), "INVALID_ID")
