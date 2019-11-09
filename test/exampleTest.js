@@ -15,21 +15,34 @@
  *  PERFORMANCE OF THIS SOFTWARE.
  */
 
+const AeSDK = require('@aeternity/aepp-sdk');
+const Universal = AeSDK.Universal;
 const Deployer = require('aeproject-lib').Deployer;
 const ECDH_CONTRACT_PATH = "./contracts/ECDH.aes";
+const CONTRACT_SOURCE = utils.readFileRelative(ECDH_CONTRACT_PATH, 'utf-8');
 
 describe('ECDH Contract', () => {
 
     let deployer, alice, bob, ecdhInstance;
+    let dummy_data = "crypto is awesome";
     let ownerKeyPair = wallets[0];
+    let client;
     
     before(async () => {
-        deployer = new Deployer('local', ownerKeyPair.secretKey)
+        client = await Universal({
+            url: "http://localhost:3001",
+            internalUrl: "http://localhost:3001/internal",
+            keypair: ownerKeyPair,
+            nativeMode: true,
+            networkId: "ae_devnet",
+            compilerUrl: "http://localhost:3080"
+        })
     })
 
     it('Deploying Example Contract', async () => {
-        ecdhInstance = await deployer.deploy(ECDH_CONTRACT_PATH)
-        assert.ok(ecdhInstance, 'Could not deploy the ECDH');
+        ecdhInstance = await client.getContractInstance(CONTRACT_SOURCE);
+        const init = await ecdhInstance.deploy([]);
+        assert.equal(init.result.returnType, 'ok');
     })
 
     describe('Generate participants', () => {
@@ -46,7 +59,8 @@ describe('ECDH Contract', () => {
 
     describe('Place data', () => {
         it('shold place encrypted data on-chain', async () => {
-
+            let result = await ecdhInstance.methods.place(dummy_data)
+            assert.ok(result, "Unable to place data")
         })
     })
 
