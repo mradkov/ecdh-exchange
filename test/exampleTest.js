@@ -17,21 +17,22 @@
 
 import { Crypto } from '@aeternity/aepp-sdk'
 const Deployer = require('aeproject-lib').Deployer;
-const EXAMPLE_CONTRACT_PATH = "./contracts/ECDH.aes";
+const ECDH_CONTRACT_PATH = "./contracts/ECDH.aes";
 
-describe('Example Contract', () => {
+describe('ECDH Contract', () => {
 
     let deployer;
     let ownerKeyPair = wallets[0];
+    let ecdhInstance;
     
     before(async () => {
         deployer = new Deployer('local', ownerKeyPair.secretKey)
     })
 
     it('Deploying Example Contract', async () => {
-        const deployPromise = deployer.deploy(EXAMPLE_CONTRACT_PATH) // Deploy it
+        ecdhInstance = await deployer.deploy(ECDH_CONTRACT_PATH) // Deploy it
 
-        await assert.isFulfilled(deployPromise, 'Could not deploy the ExampleContract Smart Contract'); // Check whether it's deployed
+        assert.ok(ecdhInstance, 'Could not deploy the ECDH'); // Check whether it's deployed
     })
 
     describe('Generate participants', () => {
