@@ -1,0 +1,16 @@
+{
+  "name": "ecdh-exchange",
+  "version": "1.0.0",
+  "description": "Elliptic Curve Diffie-Hellman secure data exchange via smart contracts on Aeternity blockchain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Milen Radkov <milenradkov@me.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@aeternity/aepp-sdk": "^6.0.0",
+    "aeproject-lib": "1.0.3",
+    "yarn": "1.19.1"
+  }
+}
