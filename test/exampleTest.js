@@ -15,15 +15,13 @@
  *  PERFORMANCE OF THIS SOFTWARE.
  */
 
-import { Crypto } from '@aeternity/aepp-sdk'
 const Deployer = require('aeproject-lib').Deployer;
 const ECDH_CONTRACT_PATH = "./contracts/ECDH.aes";
 
 describe('ECDH Contract', () => {
 
-    let deployer;
+    let deployer, alice, bob, ecdhInstance;
     let ownerKeyPair = wallets[0];
-    let ecdhInstance;
     
     before(async () => {
         deployer = new Deployer('local', ownerKeyPair.secretKey)
@@ -37,11 +35,41 @@ describe('ECDH Contract', () => {
 
     describe('Generate participants', () => {
         it('should generate Alice', async () => {
-            const alice = Crypto.generateKeyPair();
+            alice = wallets[1];
         })
 
         it('should generate Bob', async () => {
-            const bob = Crypto.generateKeyPair();
+            bob = wallets[2];
+        })
+    })
+
+    describe('Place data', () => {
+        it('shold place encrypted data on-chain', async () => {
+
+        })
+    })
+
+    describe('Claim', () => {
+        it('should ask for decryption key', async () => {
+            
+        })
+    })
+
+    describe('Unlock', () => {
+        it('should provide the encrypted ecryption key', async () => {
+
+        })
+    })
+
+    describe('Take', () => {
+        it('should take the data and decryption key', async () => {
+
+        })
+    })
+
+    describe('Verify',() => {
+        it('should decrypt data propery', async () => {
+
         })
     })
 })
