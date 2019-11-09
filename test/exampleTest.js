@@ -15,8 +15,9 @@
  *  PERFORMANCE OF THIS SOFTWARE.
  */
 
+import { Crypto } from '@aeternity/aepp-sdk'
 const Deployer = require('aeproject-lib').Deployer;
-const EXAMPLE_CONTRACT_PATH = "./contracts/ExampleContract.aes";
+const EXAMPLE_CONTRACT_PATH = "./contracts/ECDH.aes";
 
 describe('Example Contract', () => {
 
@@ -31,5 +32,15 @@ describe('Example Contract', () => {
         const deployPromise = deployer.deploy(EXAMPLE_CONTRACT_PATH) // Deploy it
 
         await assert.isFulfilled(deployPromise, 'Could not deploy the ExampleContract Smart Contract'); // Check whether it's deployed
+    })
+
+    describe('Generate participants', () => {
+        it('should generate Alice', async () => {
+            const alice = Crypto.generateKeyPair();
+        })
+
+        it('should generate Bob', async () => {
+            const bob = Crypto.generateKeyPair();
+        })
     })
 })
