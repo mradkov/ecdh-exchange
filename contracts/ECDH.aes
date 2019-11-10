@@ -1,26 +1,26 @@
 @compiler >= 4
 
 contract ECDH =
-  type state = map(int, e)
-  record e =
-    { d  : string
-    , dk : option(string)
-    , r  : option(address) }
+  type state = map(int, order)
+  record order =
+    { data           : string
+    , decryption_key : option(string)
+    , requester      : option(address) }
    
   stateful entrypoint init() : state = {}
   
-  stateful entrypoint place(d': string) : unit =
-    put(state{[Map.size(state)] = { d = d', dk = None, r = None}})
+  stateful entrypoint place(data': string) : unit =
+    put(state{[Map.size(state)] = { data = data', decryption_key = None, requester = None}})
 
   stateful entrypoint claim(id: int) : unit =
     exists(id)
-    put(state{[id].r = Some(Call.caller)})
+    put(state{[id].requester = Some(Call.caller)})
     
-  stateful entrypoint unlock(id: int, dk': string) : unit =
+  stateful entrypoint unlock(id: int, decryption_key': string) : unit =
     exists(id)
-    put(state{[id].dk = Some(dk')})
+    put(state{[id].decryption_key = Some(decryption_key')})
     
-  entrypoint take(id: int) : e =
+  entrypoint take(id: int) : order =
     exists(id)
     state[id]
   
