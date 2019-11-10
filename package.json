@@ -9,8 +9,11 @@
   "author": "Milen Radkov <milenradkov@me.com>",
   "license": "ISC",
   "dependencies": {
-    "@aeternity/aepp-sdk": "6.0.0",
+    "@aeternity/aepp-sdk": "git+https://github.com/aeternity/aepp-sdk-js.git#develop",
     "aeproject-lib": "1.0.2",
+    "easy-web-crypto": "^1.0.5",
+    "ed2curve": "^0.2.1",
+    "tweetnacl-util": "^0.15.0",
     "yarn": "1.19.1"
   }
 }
