@@ -116,18 +116,30 @@ describe('ECDH Contract', () => {
   describe('Unlock', () => {
     it('should provide the encrypted decryption key', async () => {
       const take = await ecdhInstance.methods.take(0, { onAccount: bob.publicKey})
-      const asymetric_data_decryption_key = 
+
+      let decryption_keys = [];
+
+      take.decodedResult.requests.forEach(requester => {
+        let asymetric_data_decryption_key = 
         Buffer.from(
           JSON.stringify(
             Crypto.encryptData(
               data_encryption_key,
-              take.decodedResult.requester // requester pub key
+              requester[0] // requester pub key
             )
           )
         )
         .toString('hex')
-      const result = await ecdhInstance.methods.unlock(0, asymetric_data_decryption_key, { onAccount: bob.publicKey })
+        
+        decryption_keys.push([requester[0], asymetric_data_decryption_key])
+
+      });
+
+      const result = await ecdhInstance.methods.unlock(0, decryption_keys, { onAccount: bob.publicKey })
       assert.ok(result, "Unable to unlock data")
+
+      const take_again = await ecdhInstance.methods.take(0, { onAccount: bob.publicKey})
+      assert.deepEqual(take_again.decodedResult.requests, decryption_keys, "Provided data is not matching");
     })
   })
 
@@ -149,7 +161,7 @@ describe('ECDH Contract', () => {
           alice.secretKey,
           JSON.parse(
             Buffer.from(
-              take.decodedResult.decryption_key, // encrypted decryption key
+              take.decodedResult.requests[0][1], // encrypted decryption key
               'hex'
             )
           )
