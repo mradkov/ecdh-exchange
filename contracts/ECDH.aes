@@ -3,8 +3,8 @@
 contract ECDH =
   type state = map(int, order)
   record order =
-    { data           : string
-    , requests       : map(address, decryption_key) }
+    { data      : string
+    , requests  : map(address, decryption_key) }
 
   type decryption_key = option(string)
    
