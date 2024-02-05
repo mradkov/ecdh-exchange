@@ -19,7 +19,7 @@
     "easy-web-crypto": "^1.0.5",
     "ed2curve": "^0.2.1",
     "tweetnacl-util": "^0.15.0",
-    "yarn": "1.22.0"
+    "yarn": "1.22.13"
   },
   "devDependencies": {
     "mocha": "^8.0.1"
